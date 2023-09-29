@@ -1,0 +1,386 @@
+{
+  "author": "TripleZone",
+  "support_email": "support@nexusdevs.com",
+  "config": [
+    {
+      "header": "SEO",
+      "options": [
+        {
+          "id": "og-image",
+          "name": "OG Image (Embed)",
+          "description": "Upload an image",
+          "type": "image-uploader"
+        },
+        {
+          "id": "theme-color",
+          "name": "Embed Color",
+          "default": "#e77979",
+          "description": "Embed color",
+          "type": "textarea"
+        },
+        {
+          "id": "site-description",
+          "name": "Website Description",
+          "default": "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s",
+          "description": "Description of your website for SEO purposes",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "header": "Images",
+      "options": [
+        {
+          "id": "background-image",
+          "name": "Header Background Image",
+          "description": "Enter the background image to show. If this is empty, the background image will not be shown.",
+          "type": "image-uploader"
+        },
+        {
+          "id": "christmas-image",
+          "name": "Christmas Background Image",
+          "description": "Enter the background image to show. If this is empty, the background image will not be shown.",
+          "type": "image-uploader"
+        },
+        {
+          "id": "halloween-image",
+          "name": "Halloween Background Image",
+          "description": "Enter the background image to show. If this is empty, the background image will not be shown.",
+          "type": "image-uploader"
+        }
+      ]
+    },
+    {
+      "header": "Deluxe Tebex",
+      "options": [
+        {
+          "id": "cssVersion",
+          "name": "CSS Version",
+          "description": "Change version of the css for deluxe tebex",
+          "default": "latest",
+          "type": "select",
+          "values": ["latest", "1.10.2", "1.10.1", "1.10.0", "1.0.9"]
+        },
+        {
+          "id": "language",
+          "name": "Language",
+          "description": "Change language of the deluxe tebex",
+          "default": "en_US",
+          "type": "select",
+          "values": ["en_US", "it_IT", "es_ES", "de_DE"]
+        },
+        {
+          "id": "developerMode",
+          "name": "Developer Mode",
+          "description": "Enable it for generating configurations.",
+          "default": "disabled",
+          "type": "select",
+          "values": ["disabled", "enabled"]
+        }
+      ]
+    },
+    {
+      "header": "Announcement",
+      "options": [
+        {
+          "id": "announcement",
+          "name": "Announcement",
+          "description": "Toggle Announcements",
+          "default": "disabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        },
+        {
+          "id": "announcementText",
+          "name": "Announcement Text",
+          "default": "Store wide server launch sale, 50% off everything!",
+          "description": "Set announcement text",
+          "type": "textarea"
+        },
+        {
+          "id": "announcementLink",
+          "name": "Announcement Link",
+          "default": "",
+          "description": "Set announcement link, (leave blank for no link)",
+          "type": "textarea"
+        },
+        {
+          "id": "announcementLinkOpen",
+          "name": "Announcement Link Open",
+          "description": "Set announcement link open [same = same tab, new = new tab]",
+          "default": "same",
+          "type": "select",
+          "values": ["same", "new"]
+        },
+        {
+          "id": "announcementLinkText",
+          "name": "Announcement Link Text",
+          "default": "Click Here",
+          "description": "Set announcement link text",
+          "type": "textarea"
+        },
+        {
+          "id": "announcementColor",
+          "name": "Announcement Color",
+          "default": "#e77979",
+          "description": "Set announcement color",
+          "type": "textarea"
+        }
+      ]
+    },
+    {
+      "header": "Server Details",
+      "options": [
+        {
+          "id": "discord_invite",
+          "name": "Discord Invite Link",
+          "default": "https://google.com",
+          "description": "Enter your discord invite link.",
+          "type": "textarea"
+        },
+        {
+          "id": "discord_id",
+          "name": "Discord Server ID",
+          "default": "508657212105818140",
+          "description": "Enter your Discord ID from the server settings.",
+          "type": "textarea"
+        },
+        {
+          "id": "server-ip",
+          "name": "Server IP",
+          "default": "eu.hypixel.net",
+          "description": "Enter your Server IP.",
+          "type": "textarea"
+        },
+        {
+          "id": "server-port",
+          "name": "Server Port",
+          "default": "",
+          "description": "Enter your server port.",
+          "type": "textarea"
+        },
+        {
+          "id": "minecraftServerType",
+          "name": "Minecraft Server Type",
+          "description": "Select the type of server you are Running.",
+          "default": "Premium",
+          "type": "select",
+          "values": ["Premium", "Cracked"]
+        },
+        {
+          "id": "serverType",
+          "name": "Server Type",
+          "description": "Select the type of server you are Running.",
+          "default": "Minecraft",
+          "type": "select",
+          "values": ["Minecraft", "Rust", "FiveM", "Unturned", "Discord"]
+        },
+        {
+          "id": "bedrockPrefix",
+          "name": "Bedrock Prefix",
+          "description": "Select the prefix for bedrock users.",
+          "default": ".",
+          "type": "select",
+          "values": [".", "_", "*", "BP_"]
+        },
+        {
+          "id": "enableBedrock",
+          "name": "Bedrock",
+          "description": "Toggle Bedrock Support",
+          "default": "disabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        },
+        {
+          "id": "enableBedrockByDefault",
+          "name": "Bedrock By Default",
+          "description": "Toggle Bedrock By Default",
+          "default": "disabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        }
+      ]
+    },
+    {
+      "header": "Customize Template",
+      "options": [
+        {
+          "id": "category_navigation",
+          "name": "Navigation Type",
+          "description": "Select the navigation type.",
+          "default": "sidebar",
+          "type": "select",
+          "values": ["sidebar", "topbar", "modal"]
+        },
+        {
+          "id": "topbar_style",
+          "name": "Topbar Style",
+          "description": "Select the style for topbar.",
+          "default": "normal",
+          "type": "select",
+          "values": ["normal", "centered"]
+        },
+        {
+          "id": "store_theme",
+          "name": "Theme",
+          "description": "Select a theme for the template.",
+          "default": "normal",
+          "type": "select",
+          "values": ["normal", "halloween", "christmas"]
+        },
+        {
+          "id": "logo_padding",
+          "name": "Logo Padding",
+          "description": "Set the padding for the logo. Make sure to include the unit (px, em, rem, etc).",
+          "default": "30px",
+          "type": "textarea"
+        },
+        {
+          "id": "sidebarImagesWidth",
+          "name": "Sidebar Images Width",
+          "description": "Set the width of the sidebar images. Make sure to include the unit (px, em, rem, etc).",
+          "default": "52px",
+          "type": "textarea"
+        },
+        {
+          "id": "isHomeButtonEnabled",
+          "name": "Home Button",
+          "description": "Toggle the home button",
+          "default": "enabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        },
+        {
+          "id": "homeButtonLink",
+          "name": "Home Button Link",
+          "default": "/",
+          "description": "Change the link of the button link",
+          "type": "textarea"
+        },
+        {
+          "id": "goalModule",
+          "name": "Goal Module",
+          "description": "Toggle the goal module",
+          "default": "enabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        }
+      ]
+    },
+    {
+      "header": "Preferences",
+      "options": [
+        {
+          "id": "checkoutConfirmation",
+          "name": "Checkout Confirmation",
+          "description": "Toggle the checkout confirmation",
+          "default": "enabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        },
+        {
+          "id": "displayFeaturedProductSalePercentage",
+          "name": "Featured Product Sale Percentage",
+          "description": "Toggle the sale percentage on the featured product",
+          "default": "enabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        },
+        {
+          "id": "donorsLimit",
+          "name": "Recent Payments Limit",
+          "default": 10,
+          "description": "Set how many players you want to see on the recent payments module.",
+          "type": "textarea"
+        },
+        {
+          "id": "searchOnStore",
+          "name": "Search without logging in",
+          "description": "Let your players search the store without logging in.",
+          "default": "disabled",
+          "type": "select",
+          "values": ["disabled", "enabled"]
+        },
+        {
+          "id": "featuredPackagesAddon",
+          "name": "Featured Packages on Mobile",
+          "description": "Toggle Featured packages on mobile",
+          "default": "enabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        },
+        {
+          "id": "logoAnimation",
+          "name": "Logo Animation",
+          "description": "Toggle animation for logo",
+          "default": "none",
+          "type": "select",
+          "values": ["none", "pulse"]
+        }
+      ]
+    },
+
+    {
+      "header": "Crypto Widget",
+      "options": [
+        {
+          "id": "cryptoWidget",
+          "name": "Crypto Widget",
+          "description": "Toggle Crypto Widget",
+          "default": "disabled",
+          "type": "select",
+          "values": ["enabled", "disabled"]
+        },
+        {
+          "id": "cryptoWidgetURL",
+          "name": "Crypto Widget URL",
+          "default": "https://crypto.nexusdevs.com",
+          "description": "Set Crypto Widget URL (MAKE SURE TO REMOVE / at the end of url)",
+          "type": "textarea"
+        }
+      ]
+    },
+
+    {
+      "header": "Category Icons",
+      "options": [
+        {
+          "id": "icon-1950953",
+          "name": "Packages",
+          "description": "Upload an icon for Packages",
+          "type": "image-uploader"
+        },
+        {
+          "id": "icon-global2",
+          "name": "Global2",
+          "description": "Upload an icon for Global2",
+          "type": "image-uploader"
+        },
+        {
+          "id": "icon-ranks",
+          "name": "Global",
+          "description": "Upload an icon for Global",
+          "type": "image-uploader"
+        },
+        {
+          "id": "icon-limitless",
+          "name": "limitless",
+          "description": "Upload an icon for limitless",
+          "type": "image-uploader"
+        },
+        {
+          "id": "icon-patrons",
+          "name": "Patrons",
+          "description": "Upload an icon for Patrons",
+          "type": "image-uploader"
+        },
+        {
+          "id": "icon-vote",
+          "name": "Vote",
+          "description": "Upload an icon for Vote",
+          "type": "image-uploader"
+        }
+      ]
+    }
+  ]
+}

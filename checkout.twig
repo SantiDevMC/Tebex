@@ -1,0 +1,242 @@
+{% extends "layout.html" %}
+{% block content %}
+
+	{% include 'layout.topbar.twig' %}
+
+	<div class="checkout__page">
+		<div class="checkout__page--sidebar">
+
+			<a href="/checkout/logout" class="shopping__as">
+				<div class="shopping__as--widget">
+					<div class="__avatar">
+						{% if config("serverType") == "Minecraft" %}
+
+							{% set bedrockPrefix = config("bedrockPrefix") %}
+							{% set ignWithoutPrefix = basket.ign | replace({ (bedrockPrefix) : ''}) %}
+							{% set minecraftSkin = "https://minotar.net/avatar/#{ignWithoutPrefix}/32" %}
+
+							<img class="avatar-head" src="{{ minecraftSkin }}" alt="{{ basket.ign }}'s Head">
+						{% else %}
+							<img class="avatar-head" src="https://cdn.triplezone.dev/api/steamAvatar?id={{ basket.uuid }}" alt="{{ basket.ign }}'s Head" width="32px">
+						{% endif %}
+					</div>
+					<div class="__description">
+						<div class="__logout--text">{{ lang.click_to_logout}}
+						</div>
+						<div class="__shopping__as--text">{{ lang.shopping_as}}
+							{{ basket.ign }}</div>
+					</div>
+				</div>
+			</a>
+
+			{% include 'layout.sidebar.twig' %}
+
+		</div>
+
+		<div class="checkout__page--body checkout">
+
+			<div class="cart__review">
+				<p class="cart__review--title">{{ lang.cart_review}}
+					({{ basket.packages|length }}
+					{{ lang.items }})</p>
+				<button class="cart__action--compress">
+					<i class="mdi mdi-chevron-down"></i>
+				</button>
+			</div>
+
+			<div class="cart__items">
+				<form method="post" action="/checkout/update" class="quantity-form">
+					{% for package in basket.packages %}
+						<div class="cart__item">
+							<div class="cart__item--name">
+								<img src="{{ package.image.url }}">
+								<div class="cart__item--description">
+									<p class="cart__item__description--name">{{ package.name }}</p>
+									<p class="cart__item__description--price">{{ package.price|money }}
+										{{ basket.currency }}
+									</p>
+								</div>
+							</div>
+
+							<div class="quantity__item">
+								<div class="quantity__item">
+									<a class="quantity__decrease qty-count {% if package.price == 0.00 or package.disableQuantity %}disabled__btn--qnt{% endif%}" name="quantity[{{ package.id }}]" data-action="minus" data-package="quantity[{{ package.id }}]">
+										<span class="minus__indicator">-</span>
+										<i class="mdi mdi-loading __loading--refresh"></i>
+									</a>
+									<input type="number" class="qty-count quantity__input" data-action="manual_quantity" name="quantity[{{ package.id }}]" value="{{ package.quantity }}" min="1" {% if package.price == 0.00 or package.disableQuantity %} disabled="disabled" {% endif %}>
+									<a class="quantity__increase qty-count {% if package.price == 0.00 or package.disableQuantity %}disabled__btn--qnt{% endif%}" name="quantity[{{ package.id }}]" data-action="add" data-package="quantity[{{ package.id }}]">
+										<span class="plus__indicator">+</span>
+										<i class="mdi mdi-loading __loading--refresh"></i>
+									</a>
+								</div>
+							</div>
+
+							<div class="cart__item--actions">
+								<a href="javascript::void(0);" data-remote="/package/{{ package.id }}" class="cart__action--info triplezone__toogle--modal">
+									<i class="mdi mdi-information-outline"></i>
+								</a>
+								<a href="/checkout/packages/remove/{{ package.id }}" class="cart__action--remove">
+									<i class="mdi mdi-trash-can-outline"></i>
+								</a>
+							</div>
+						</div>
+					{% endfor %}
+				</form>
+
+				<p class="cart__total--price">{{ lang.total_price }}
+					{% if basket.coupons|length > 0 %}
+						{% for coupon in basket.coupons %}
+							({{ coupon.description }})
+						{% endfor %}
+					{% endif %}
+					<span class="cart__ajax--total_price">
+						{{basket.price|money }}
+					</span>
+					<span>{{ basket.currency }}</span>
+				</p>
+				{% if basket.coupons|length > 0 %}
+					<div class="__coupons">
+						{% for coupon in basket.coupons %}
+							<div class="__coupon">
+								<p>{{ coupon.code }}</p>
+								<a href="/checkout/coupons/remove/{{ coupon.code }}">
+									<i class="mdi mdi-close"></i>
+								</a>
+							</div>
+						{% endfor %}
+					</div>
+				{% endif %}
+			</div>
+
+			<div class="checkout__body--separe coupon__separe">
+
+				<div class="checkout__details--step">
+					<div class="checkout__details__step--header">
+						<p>
+							<span>
+								<i class="mdi mdi-ticket-percent"></i>
+							</span>
+							{{ lang.apply_coupons }}
+						</p>
+					</div>
+					<div class="coupon__form">
+						<form method="post" action="/checkout/coupons/add">
+							<input type="text" name="coupon" placeholder="{{ lang.coupon_enter_code }}">
+							<button type="submit" class="purchase__btn">
+								{{ lang.redeem_coupon }}</button>
+						</form>
+					</div>
+				</div>
+
+			</div>
+
+			{% if config("checkoutConfirmation") == "enabled" %}
+				<div class="checkout__body--separe" style="margin-bottom: 20px;">
+					<div class="checkout__details--step">
+						<div class="checkout__details__step--header">
+							<p>
+								<span class="mdi mdi-shield-account"></span>
+								{{ lang.userAgreement }}
+							</p>
+						</div>
+					</div>
+					<div class="checkout__details--step">
+						<div class="confirm__grid">
+							{% for agreement in theme_configuration.checkoutUserAgreement %}
+								<label class="confirmation__checkbox" for="checkbox-{{ loop.index }}">
+									<input type="checkbox" id="checkbox-{{ loop.index }}"/>
+									<div class="checkbox__checkmark"></div>
+									<div class="checkbox__body">{{ (agreement.content | replace({"%user%": basket.ign })) | raw}}</div>
+								</label>
+							{% endfor %}
+						</div>
+					</div>
+					<div class="checkout__details--step confirm__step">
+						<p>
+							<span class="mdi mdi-alert-box" aria-hidden="true"></span>
+							{{ lang.youMustTickAllBoxes }}
+						</p>
+					</div>
+				</div>
+			{% endif %}
+
+			<div class="checkout__body--separe">
+				{% if store.useCheckout %}
+
+					<div class="checkout__details--step">
+						<div class="checkout__details__step--header">
+							<p>
+								<span class="mdi mdi-cart"></span>
+								{{ lang.finalize_purchase }}</p>
+						</div>
+					</div>
+
+					<div class="checkout__details--step">
+
+						{% if config("cryptoWidget") == "enabled" %}
+							<div class="checkout__gateways">
+								<div class="checkout__gateways--gateway">
+									<input type="radio" name="radio" id="tebexpayment" checked/>
+									<label for="tebexpayment">
+										<svg height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewbox="0 0 512 512" xml:space="preserve">
+											<path style="fill:#92DBEF;" d="M512,402.282c0,16.716-13.55,30.267-30.265,30.267H30.265C13.55,432.549,0,418.997,0,402.282V109.717
+																																														c0-16.716,13.55-30.266,30.265-30.266h451.47c16.716,0,30.265,13.551,30.265,30.266V402.282L512,402.282z"/>
+											<path style="opacity:0.15;fill:#202121;enable-background:new    ;" d="M21.517,402.282V109.717
+																																														c0-16.716,13.552-30.266,30.267-30.266h-21.52C13.55,79.451,0,93.001,0,109.717v292.565c0,16.716,13.55,30.267,30.265,30.267h21.52
+																																														C35.07,432.549,21.517,418.997,21.517,402.282z"/>
+											<path style="fill:#263B80;" d="M332.435,148.47c-11.22-12.825-32.057-19.233-60.905-19.233h-80.143
+																																														c-4.811,0-9.616,4.812-11.22,9.613L148.11,348.817c0,4.815,3.207,8.014,6.407,8.014h49.687l12.823-78.534v3.206
+																																														c1.606-4.813,6.409-9.615,11.222-9.615h24.045c46.479,0,81.733-19.233,92.955-72.132v-4.808c-1.602,0-1.602,0,0,0
+																																														C346.854,174.117,343.648,161.292,332.435,148.47"/>
+											<path style="fill:#232C65;" d="M345.25,199.756v-4.808c0.011-0.159,0.018-0.307,0.028-0.465c-2.85-1.981-5.52-3.363-7.561-4.259
+																																														c-9.732-4.021-19.684-4.779-24.278-4.894l-0.024-0.02h-23.374c0,0,0.02,0.012,0.03,0.019h-49.03
+																																														c-8.336,0.303-10.634,7.024-11.236,9.948l-12.777,83.021v1.97v1.235c1.606-4.813,6.409-9.615,11.222-9.615h24.045
+																																														C298.774,271.888,334.028,252.654,345.25,199.756z"/>
+											<path style="fill:#139AD6;" d="M360.996,214.814c-3.622-9.993-10.031-16.378-15.717-20.332c-0.011,0.158-0.018,0.306-0.028,0.465
+																																										v4.808c-11.222,52.898-46.476,72.132-92.955,72.132h-24.045c-4.813,0-9.616,4.801-11.222,9.615v-1.236
+																																										c-0.183,0.41-0.352,0.823-0.49,1.236l-9.055,55.247l-3.279,20.082h-0.012l-3.679,22.442c0,3.204,1.605,6.403,6.408,6.403h39.953
+																																										c8.038,0,10.563-6.253,11.339-9.622l0.339-2.093v-0.001l7.672-47.584c0,0,1-11.219,11.945-11.219h4.089
+																																										c40.07,0,72.126-16.025,80.139-64.107C364.626,237.645,364.516,225.032,360.996,214.814z"/>
+										</svg>
+										{{ lang.creditCard_Paypal }}
+									</label>
+								</div>
+								<div class="checkout__gateways--gateway">
+									<input type="radio" name="radio" id="crypto"/>
+									<label for="crypto">
+										<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" height="800px" width="800px" version="1.1" id="Capa_1" viewbox="0 0 512 512" xml:space="preserve">
+											<path style="fill:#F7931A;" d="M512,402.282c0,16.716-13.55,30.267-30.265,30.267H30.265C13.55,432.549,0,418.997,0,402.282V109.717  c0-16.716,13.55-30.266,30.265-30.266h451.47c16.716,0,30.265,13.551,30.265,30.266V402.282L512,402.282z"/>
+											<circle style="fill:#623907;" cx="344.58" cy="256.43" r="122.44"/>
+											<path style="opacity:0.15;fill:#202121;enable-background:new    ;" d="M21.517,402.282V109.717  c0-16.716,13.552-30.266,30.267-30.266h-21.52C13.55,79.451,0,93.001,0,109.717v292.565c0,16.716,13.55,30.267,30.265,30.267h21.52  C35.07,432.549,21.517,418.997,21.517,402.282z"/>
+											<path style="fill:#F7931A;" d="M343.004,341.042l6.083-24.333c24.893,4.424,43.694,2.763,51.442-19.912  c6.635-18.253,0-28.761-13.276-35.399c9.954-2.211,17.145-8.851,18.805-21.571c2.763-17.699-11.064-27.102-30.42-33.183  l6.083-23.784l-14.381-3.871l-5.531,23.23c-3.87-1.11-7.743-1.66-11.616-2.766l6.087-23.229l-14.383-3.871l-6.083,23.782  c-3.319-0.555-6.637-1.662-9.406-2.215l-19.909-4.978l-3.872,15.485l10.508,2.767c5.533,1.104,6.637,4.979,6.637,8.294  l-6.637,27.103c0.554,0,1.109,0,1.661,0.553c-0.552,0-1.106-0.553-1.661-0.553l-9.402,38.163c-0.554,1.662-2.765,4.425-6.637,3.319  l-10.508-2.766l-7.191,16.594l18.805,4.976c3.872,1.11,7.191,1.66,10.508,2.765l-6.083,24.338l14.381,3.872l6.083-23.782  c3.872,0.552,7.743,1.655,11.616,2.764l-6.081,23.781L343.004,341.042z M346.874,216.596c8.298,2.213,34.292,6.084,30.422,23.23  c-3.872,16.592-29.313,8.298-37.611,6.083L346.874,216.596z M328.071,292.372l7.743-32.08c9.954,2.763,41.481,7.189,37.054,25.997  C368.446,304.539,338.029,294.583,328.071,292.372z"/>
+											<g>
+												<path style="fill:#623907;" d="M170.939,153.477H54.011c-4.611,0-8.348-3.736-8.348-8.348c0-4.611,3.736-8.348,8.348-8.348H170.94   c4.61,0,8.348,3.736,8.348,8.348C179.287,149.741,175.551,153.477,170.939,153.477z"/>
+												<path style="fill:#623907;" d="M170.939,190.208H54.011c-4.611,0-8.348-3.736-8.348-8.348c0-4.611,3.736-8.348,8.348-8.348H170.94   c4.61,0,8.348,3.736,8.348,8.348C179.287,186.471,175.551,190.208,170.939,190.208z"/>
+											</g>
+										</svg>
+										{{ lang.crypto }}
+									</label>
+								</div>
+							</div>
+						{% endif %}
+
+						<form method="post" action="{% if basket.price > 0 %}/checkout/pay{% else %}/checkout/free{% endif %}" {% if basket.price> 0 %} class="gateway" {% endif %}>
+							<button type="submit" class="purchase__btn" id="purchase-button" {% if config("checkoutConfirmation") == "enabled" %} disabled {% endif %} data-loading-text="{{ lang.checkout_loading }}">{{ lang.proceed_to_checkout }}
+							</button>
+						</form>
+
+					</div>
+
+				{% endif %}
+
+			</div>
+		</div>
+	</div>
+
+	{% if checkout.kount %}
+		<iframe width="1" height="1" frameborder="0" scrolling="no" src="{{ checkout.kount.url|raw }}">
+			<img width="1" height="1" src="{{ checkout.kount.gif|raw }}">
+		</iframe>
+	{% endif %}
+{% endblock %}

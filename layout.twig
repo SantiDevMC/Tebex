@@ -1,0 +1,279 @@
+{% extends "config.twig" %}
+
+{% block layout %}
+
+<!--
+   © TripleZone 2022
+   Discord TripleZone#8501
+   Version: 4.9
+-->
+
+{# ##################################################################################### #}
+{# ####                          Deluxe Tebex Configuration                         #### #}
+{# ####                    Copyright 2020-2023 SC Red Digital Studios SRL           #### #}
+{# ####                           Contact: TripleZone#8501                          #### #}
+{#                                      VERSION 4.9                                      #}
+{# ##################################################################################### #}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>{{ store.name }} | {{ page.title }}</title>
+
+{# SEO #}
+<meta
+    name="robots"
+    content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1"
+>
+<meta name="og:type" content="website">
+<meta name="og:locale" content="en_EN">
+<meta name="og:image:width" content="1200">
+<meta name="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<meta name="og:site_name" content="{{ store.name }} | {{ __(page.title) }}">
+<meta name="og:title" content="{{ store.name }} | {{ __(page.title) }}">
+<meta name="og:image" content="{{ config("og-image") }}">
+<meta name="og:image:alt" content="{{ store.name }} | {{ __(page.title) }}">
+<meta
+    name="description"
+    content="{{ config("site-description") }}"
+>
+<meta
+    name="og:description"
+    content="{{ config("site-description") }}"
+>    
+
+<link rel="shortcut icon" href="{{ store.favicon }}">
+<meta name="theme-color" content="{{ config("theme-color") }}">    
+{# SEO #}
+
+{# Colors from config.php #}
+{{ colors }}
+
+<link href="https://cdn.jsdelivr.net/gh/rosu-catalin/deluxecdn@{{ config("cssVersion") }}/style.min.css" rel="stylesheet">
+
+<link rel="shortcut icon" href="{{ store.favicon }}">
+
+{% include 'external_assets.twig' %}
+
+<script type="text/javascript">
+    var _gaq = _gaq || [];
+
+    _gaq.push(['_setAccount', 'UA-36735942-3']);
+    _gaq.push(['_trackPageview']);
+
+    {% if store.googleAnalytics %}
+    _gaq.push(['b._setAccount', '{{ store.googleAnalytics }}']);
+    _gaq.push(['b._trackPageview']);
+    {% endif %}
+
+    (function () {
+        var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+        ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+        var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+    })();
+
+    const featuredProducts = new Map()
+</script>
+
+<link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
+
+<style>
+    {{ store.css|raw }}
+</style>
+
+{% include 'stylePreferences.twig' %}
+
+</head>
+
+<body>
+    
+{% if config("announcement") == "enabled" %}
+    {% include 'layout.announcement.twig' %}
+{% endif  %}
+
+{% if config("cryptoWidget") == "enabled" %}
+    {% include 'layout.cryptowidget.twig' %}
+{% endif %}
+
+{% if config("store_theme") == "christmas" %}
+<ul class="lightrope"><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li><li></li></ul>
+{% endif %}
+
+{% include 'layout.basket.twig' %}
+
+{% include 'layout.login_modal.twig' %}
+
+{% include 'layout.header.twig' %}
+
+<div class="triplezone-wrapper">
+    
+    <div class="notification">
+        
+        {% if page.message.display %}
+        <script>
+            Toastify({
+                text: "{{ page.message.text | raw }}",
+                duration: 6000,
+                close: true,
+                gravity: "top", // `top` or `bottom`
+                position: "center", // `left`, `center` or `right`
+                stopOnFocus: true, // Prevents dismissing of toast on hover
+                offset: {
+                y: "3rem" // vertical axis - can be a number or a string indicating unity. eg: '2em'
+                },                  
+                style: {
+                background: "linear-gradient(to right, #f44336, rgb(153 50 42))",
+                boxShadow: "0 3px 6px -1px rgb(0 0 0 / 12%), 0 10px 36px -4px rgb(244 67 54 / 35%)",
+                padding: "1.5rem",
+                borderRadius: "6px",
+                },
+                onClick: function(){}
+            }).showToast();               
+        </script>    
+        {% endif %}
+        
+    </div>
+
+    {% block content %}{% endblock %}
+
+    {% if store.plan == "1" %}
+    <div class="advertisement">
+        <script async src="//pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+        <ins class="adsbygoogle" style="display:inline-block;width:728px;height:90px;"
+            data-ad-client="ca-pub-9830135219921132" data-ad-slot="7404819681"></ins>
+        <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+    </div>
+    {% endif %}
+</div>
+
+{% include 'layout.footer.twig' %}
+
+<dialog class="modal" data-loading-modal data-modal-type="package">
+    <div class="modal__loading">
+        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 25C2 37.7026 12.2974 48 25 48C37.7026 48 48 37.7026 48 25C48 12.2974 37.7026 2 25 2"
+                stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </div>
+    <div class="modal__content">
+        <button class="modal__content--close" aria-label="Close Modal">
+            <i aria-hidden="true" class="mdi mdi-window-close"></i>
+        </button>
+        <div class="modal__content__box">
+        </div>
+    </div>
+</dialog>
+
+<dialog class="modal" data-loading-modal data-modal-type="crypto" style="--max-width: 33rem;">
+    <div class="modal__loading">
+        <svg width="50" height="50" viewBox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 25C2 37.7026 12.2974 48 25 48C37.7026 48 48 37.7026 48 25C48 12.2974 37.7026 2 25 2"
+                stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+    </div>
+    <div class="modal__content">
+        <button class="modal__content--close" aria-label="Close Modal">
+            <i aria-hidden="true" class="mdi mdi-window-close"></i>
+        </button>
+        <div class="modal__content__box">
+            <div class="modal__content__box__steps">
+
+                <div class="modal__content__box__steps__title">
+                    <h2>How to pay with crypto</h2>
+                </div>
+
+                <div class="modal__content__box__steps__step">
+                    <p class="step__title">Step 1.</p>
+                    <p><span>Visit</span> the {{ store.name }} Crypto Exchange</p>
+                </div>
+                
+                <div class="modal__content__box__steps__step">
+                    <p class="step__title">Step 2.</p>
+                    <p>Choose your cryptocurrency and purchase <span>{{basket.price|money }} {{ basket.currency }}</span> of store credit</p>
+                </div>
+
+                <div class="modal__content__box__steps__step">
+                    <p class="step__title">Step 3.</p>
+                    <p>Redeem your store credit code at checkout</p>
+                </div>
+
+                <a href="{{ config("cryptoWidgetURL") }}" target="_blank">Visit Crypto Exchange <span class="mdi mdi-arrow-right-thin" aria-hidden="true"></span></a>
+            
+            </div>
+        </div>
+    </div>
+</dialog>
+
+{% if config("category_navigation") == "modal" %}
+<dialog class="modal" data-loading-modal data-modal-type="categorySelector">
+	<div class="modal__loading">
+		<svg width="50" height="50" viewbox="0 0 50 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+			<path d="M2 25C2 37.7026 12.2974 48 25 48C37.7026 48 48 37.7026 48 25C48 12.2974 37.7026 2 25 2" stroke="white" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+		</svg>
+	</div>
+	<div class="modal__content">
+		<button class="modal__content--close" aria-label="Close Modal">
+			<i aria-hidden="true" class="mdi mdi-window-close"></i>
+		</button>
+		<div class="modal__content__box">
+
+            <div class="modal__content__box__categoryModal">
+                <h3>{{ lang.select_category }}</h3>
+                <ul>
+                    {% for category in store.categories %}
+                        <li class="{% if category.active %}active-dropdown{% endif %}">
+                            <a {{ searchWithoutLogging | raw }} href="/category/{{ category.id }}" class="{% if category.active %}link__active{% endif %}">
+                                <img src="{{ config("icon-#{category.id}") }}" />
+                                {{ category.name }}
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+
+		</div>
+	</div>
+</dialog>
+{% endif %}
+
+
+{% if page.category == "checkout" %}
+<script src="https://js.stripe.com/v2/"></script>
+{% endif %}
+
+{% include 'externals_scripts.twig' %}
+{% include 'app.twig' %}
+
+
+<div id="basket_items" style="display: none;">
+  {
+    "basket": {
+        "products": [
+        {% for package in basket.packages %}
+            {
+                "id": "{{ package.id }}",
+                "name": "{{ package.name }}",
+                "price": "{{ package.price|money }}",
+                "quantity": {{ package.quantity }}
+            }
+            {%- if not loop.last -%}
+            ,
+            {% endif %}
+        {% endfor %}                       
+        ],
+        "store_currency": "{{ basket.currency }}",
+        "total_basket": {{ basket.price|money }}
+    }
+}
+</div>
+
+</body>
+
+</html>
+{% endblock %}

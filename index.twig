@@ -1,0 +1,54 @@
+{% extends "layout.html" %}
+{% block content %}
+
+{% include 'layout.topbar.twig' %}
+
+<div class="body--with-sidebar">
+    
+    {% include 'layout.sidebar.twig' %}
+    
+    <main class="triplezone-main-content">
+        
+        <div class="featured__packages" style="display: none">
+            <p class="featured__packages--title">
+                {{ lang.featured_packages_title }}
+            </p>
+            <div class="featured__packages--flex"></div>
+        </div>
+        
+        <div class="triplezone-body-description">
+            <div class="home-splash">
+                <div class="welcome-s">
+                    <p>{{ lang.welcome_to_the_server }}</p>
+                    <p>{{ store.name }} {{ lang.store_title }}</p>
+                </div>
+                {% if config("goalModule") == "enabled" %}
+                <div class="splash__goal">
+                    <div class="splash__goal--body {% if config("store_theme") == "halloween"%}halloween--web-right halloween--web-left{% endif %}">
+                        <p class="goal__title">{{ lang.monthly_goal }}</p>
+                        <p class="goal__progress"><span data-goal-amount></span> <span data-goal-progress>0%<span></p>
+                    </div>
+                    <div class="splash__goal--footer">
+                        <div class="splash__goal__footer--progress"></div>
+                    </div>
+                </div>
+                {% endif %}
+            </div>
+            
+            {# The config is in config.twig #}
+
+            {# {{ homepageHTML|raw }} #}
+            {{ index.description|raw }}
+
+            {% if config("category_navigation") == "sidebar" %}
+            <div class="triplezone__modules">
+                {{ modules|raw }}
+            </div>
+            {% endif %}
+
+        </div>
+    </main>
+
+</div>
+{% endblock %}
+
